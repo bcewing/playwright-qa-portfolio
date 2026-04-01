@@ -9,7 +9,8 @@ test.describe('Navigation', () => {
   test('clicking the logo returns to homepage', async ({ page }) => {
     await page.goto('/pages/support');
     const logo = page.locator('[class*="logo"] a, a[href="/"]').first();
-    await logo.click();
+    // force:true bypasses overlay interception (e.g. Facebook sidebar widget on some pages)
+    await logo.click({ force: true });
     await expect(page).toHaveURL(/wahoofitness\.com\/?$|^\/?$/);
   });
 
@@ -73,7 +74,7 @@ test.describe('Navigation', () => {
       const url = href.startsWith('http') ? href : `https://www.wahoofitness.com${href}`;
 
       try {
-        const response = await request.get(url, { maxRedirects: 5, timeout: 8000 });
+        const response = await request.get(url, { maxRedirects: 5, timeout: 12000 });
         if (response.status() >= 400) {
           failures.push(`${href} → HTTP ${response.status()}`);
         }

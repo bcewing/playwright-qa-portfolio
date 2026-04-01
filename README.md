@@ -8,7 +8,7 @@ A Playwright test suite targeting [wahoofitness.com](https://www.wahoofitness.co
 |---|---|---|
 | Homepage | `tests/homepage.spec.js` | Page title, logo, nav, hero, footer, broken image detection |
 | Navigation | `tests/navigation.spec.js` | Nav link visibility, click-through, 404 link scan, mobile hamburger menu |
-| Products | `tests/products.spec.js` | KICKR/ELEMNT/TICKR collection pages, product detail (price, images, add-to-cart) |
+| Products | `tests/products.spec.js` | KICKR/ELEMNT/TICKR link presence via DOM, product detail page (price, images, add-to-cart, description) |
 | Support & Forms | `tests/support.spec.js` | Support page structure, help links, newsletter form validation |
 
 ## Prerequisites
@@ -65,11 +65,14 @@ Tests run against three browser projects defined in `playwright.config.js`:
 ## Key techniques demonstrated
 
 - **Role-based selectors** (`getByRole`, `getByPlaceholder`) for resilient, accessibility-aligned locators
-- **API-level assertions** alongside UI checks (e.g., the nav 404 scan uses `request.get()`)
+- **API-level assertions** alongside UI checks — the nav 404 scan uses `request.get()` to check internal links, excluding third-party subdomains (e.g. Zendesk) that block headless requests
 - **Broken image detection** via `img.naturalWidth` evaluation
+- **DOM presence vs. visibility** — `toBeAttached()` used where content exists in the DOM but is hidden by lazy-loading (e.g. Magento price boxes)
+- **Overlay handling** — `click({ force: true })` to interact with elements blocked by third-party overlays (e.g. Facebook sidebar widget)
 - **Conditional test logic** with `test.info().annotations` to annotate rather than hard-fail when optional elements are absent
 - **Parallel execution** with `fullyParallel: true` and per-test isolation
 - **Failure artifacts** — screenshots and videos are captured automatically on failure; traces are kept on retry
+- **Live site awareness** — tests avoid hardcoded URL patterns (discovered Wahoo runs Magento, not Shopify) and use DOM link discovery to stay resilient to site restructuring
 
 ## Configuration
 
