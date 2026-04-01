@@ -1,0 +1,28 @@
+{
+  "name": "playwright-qa-portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:chromium": "playwright test --project=chromium",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcewing/playwright-qa-portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bcewing/playwright-qa-portfolio/issues"
+  },
+  "homepage": "https://github.com/bcewing/playwright-qa-portfolio#readme",
+  "dependencies": {
+    "@playwright/test": "^1.59.0"
+  }
+}
